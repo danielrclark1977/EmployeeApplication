@@ -1,0 +1,37 @@
+﻿@page "/employers"
+
+@using EmployeeApplication.Services
+@inject EmployerService employerService
+
+<h1>Employer Jobs</h1>
+
+@if (employers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div class="container">
+    <div class="row justify-content-md-center mb-1">
+        @foreach (var employer in employers)
+        {
+        <div class="col-sm-3" *ngFor="let employer of employers">
+            <h4>@employer.Name</h4>
+            <a class="secondaryNav" routerLink='/employer-job/@employer.Id' routerLinkActive="active">
+                Employer
+                Jobs
+            </a>
+        </div>
+        }
+    </div>
+</div>
+}
+
+@code {
+    private EmployeeApplicationModel.Models.Employers[] employers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employers = await employerService.GetEmployersAsync();
+    }
+}

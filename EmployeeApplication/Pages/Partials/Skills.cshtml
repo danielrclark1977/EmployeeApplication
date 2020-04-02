@@ -1,0 +1,13 @@
+﻿@page
+@model List<EmployeeApplicationModel.Models.Skills>
+@{
+
+}
+<partial name="_PartialSkills" model="Model.Skills" />
+@model List<EmployeeApplicationModel.Models.Skills>
+<h1>Skills</h1>
+    @foreach (var skill in Model)
+    {
+        <h6>@skill.SkillName</h6>
+        <p>Months Exprerience:@skill.MonthsExperience</p>
+    }

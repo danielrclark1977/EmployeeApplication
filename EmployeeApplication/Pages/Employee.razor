@@ -1,0 +1,39 @@
+﻿@page "/employee/{Id:int}"
+
+@using EmployeeApplicationModel.Models
+@using EmployeeApplication.Services
+@inject EmployeeService employeeService
+<h1>Employees</h1>
+
+@if (employee == null)
+{
+
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="container">
+        <button (click)="showEmployeeForm()" *ngIf="IsAdmin" class="btn-xs">Create New Employee</button>
+        <form novalidate [formGroup]="form" [hidden]="!ShowAddEmployeeForm">
+            <label>First Name</label><input type="text" formControlName="firstName" class="form-control">
+            <label>Middle Name</label><input type="text" formControlName="middleName" class="form-control">
+            <label>Last Name</label><input type="text" formControlName="lastName" class="form-control">
+            <label>Street</label><input type="text" formControlName="addressStreet" class="form-control">
+            <label>City</label><input type="text" formControlName="addressCity" class="form-control">
+            <label>State</label><input type="text" formControlName="addressState" class="form-control">
+            <label>Zip</label><input type="text" formControlName="addressZip" class="form-control">
+            <label>Skills</label><input type="text" formControlName="skills" class="form-control">
+            <button type="submit" (click)="addEmployee()" *ngIf="IsAdmin" class="btn-xs" [disabled]="form.invalid">Add Employee</button>
+        </form>
+    </div>
+}
+
+@code {
+    private EmployeeApplicationModel.Models.Employees employee;
+    [Parameter]
+    public int Id { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        employee = await employeeService.GetEmployeeAsync(Id);
+    }
+}

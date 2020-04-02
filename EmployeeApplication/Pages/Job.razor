@@ -1,0 +1,39 @@
+﻿@page "/job/{Id:int}"
+
+@using EmployeeApplication.Data
+@using EmployeeApplication.Services
+@inject EmployerJobService employerJobService
+
+<h1>Employer Jobs</h1>
+
+@if (jobs == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div class="container">
+    <!--h5 class="row justify-content-md-center mb-1"> Jobs</h5-->
+    <div class="row justify-content-md-center mb-1">
+        @foreach (var currentJob in jobs)
+        {
+            <div class="col-sm-4" *ngFor="let currentJob of employerJobs">
+                <h6>Job Name: @currentJob.JobName</h6>
+                <p>Job Location: @currentJob.JobLocation</p>
+                <p>Job Start Date: @currentJob.JobStartDate</p>
+                <p>Job End Date: @currentJob.JobEndDate</p>
+                <p>Job Rate: @currentJob.JobRate</p>
+            </div>
+        }
+        </div>
+</div>
+}
+
+@code {
+    private EmployeeApplicationModel.Models.Jobs[] jobs;
+
+    protected override async Task OnInitializedAsync()
+    {
+        jobs = await employerJobService.GetJobsAsync();
+    }
+}
